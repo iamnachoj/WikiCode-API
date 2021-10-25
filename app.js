@@ -22,7 +22,10 @@ const articleSchema = {
 
 const Article = mongoose.model('Article', articleSchema);
 
-//ROUTES
+//.....///////////////////////////////////////////////////  ROUTES //////////////////////////////////////////////////.......//
+
+//////////////////////////////////////// REQUESTS TARGETTING ALL ARTICLES ////////////////////////////////////////
+
 app.route('/articles')
   //GET
   .get(function(req,res){
@@ -56,15 +59,23 @@ app.route('/articles')
     else{res.send("all articles have been removed")}
   });
 });
-//delete one article
-app.delete("/articles/:ID", function(req,res){
-  const deletedArticle = req.params.ID
-  Article.deleteOne({_id: deletedArticle}, function(err){
-    if(err){res.send(err)}
-    else{res.send("Article has been removed")}
+
+/////////////////////////////////////// REQUESTS TARGETING SPECIFIC ARTICLES //////////////////////////////////////
+app.route("/articles/:ID")
+  
+  .get(function(req,res){
+    Article.findOne({_id: req.params.ID}, function(err, result){
+      if(!err){res.send(result)}
+      else{res.send(err)}
+    });
   })
-})
-
-
+  .put(function(req,res){})
+  .patch(function(req,res){})
+  .delete(function(req,res){
+    Article.deleteOne({_id: req.params.ID}, function(err){
+      if(err){res.send(err)}
+      else{res.send("Article has been removed")}
+      })
+  })
 //server 
 app.listen(4000, () => console.log('app listening on port 4000!'));
