@@ -22,17 +22,20 @@ const articleSchema = {
 
 const Article = mongoose.model('Article', articleSchema);
 
-//Routes
-app.get('/articles', function(req,res){
-  Article.find({}, function(err, AllArticles){
-    if(!err){
-      res.send(AllArticles)
-    }else{
-      console.log(err)
-    }
-  });
-});
-app.post('/articles', function(req, res){
+//ROUTES
+app.route('/articles')
+  //GET
+  .get(function(req,res){
+    Article.find({}, function(err, AllArticles){
+      if(!err){
+        res.send(AllArticles)
+      }else{
+        console.log(err)
+      }
+    });
+  })
+  //POST
+  .post(function(req, res){
   const newArticle = new Article({
     title: req.body.title,
     content: req.body.content,
@@ -45,14 +48,23 @@ app.post('/articles', function(req, res){
       res.send("article posted successfully")
      }
   });
+  })
+  //DELETE
+  .delete(function(req,res){
+  Article.deleteMany({}, function(err){
+    if(err){res.send(err)}
+    else{res.send("all articles have been removed")}
+  });
 });
-app.delete("/articles", function(req,res){
- Article.deleteMany({}, function(err){
-  if(err){res.send(err)}
-  else{res.send("all articles have been removed")}
- });
- 
-});
+//delete one article
+app.delete("/articles/:ID", function(req,res){
+  const deletedArticle = req.params.ID
+  Article.deleteOne({_id: deletedArticle}, function(err){
+    if(err){res.send(err)}
+    else{res.send("Article has been removed")}
+  })
+})
+
 
 //server 
 app.listen(4000, () => console.log('app listening on port 4000!'));
