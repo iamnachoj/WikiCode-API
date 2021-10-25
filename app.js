@@ -69,7 +69,18 @@ app.route("/articles/:ID")
       else{res.send(err)}
     });
   })
-  .put(function(req,res){})
+  .put(function(req,res){
+    Article.updateOne(
+      {_id: req.params.ID }, 
+      { title: req.body.title, 
+        content: req.body.content, 
+        resource: req.body.resource
+      },
+      function(err){
+        if(!err){res.redirect("/articles/" + req.params.ID)}
+        else{res.send(err)}
+      });
+  })
   .patch(function(req,res){})
   .delete(function(req,res){
     Article.deleteOne({_id: req.params.ID}, function(err){
