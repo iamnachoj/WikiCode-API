@@ -45,7 +45,14 @@ app.post('/articles', function(req, res){
       res.send("article posted successfully")
      }
   });
-})
+});
+app.delete("/articles", function(req,res){
+ Article.deleteMany({}, function(err){
+  if(err){res.send(err)}
+  else{res.send("all articles have been removed")}
+ });
+ 
+});
 
 //server 
 app.listen(4000, () => console.log('app listening on port 4000!'));
