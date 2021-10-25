@@ -33,8 +33,18 @@ app.get('/articles', function(req,res){
   });
 });
 app.post('/articles', function(req, res){
-  console.log(req.body.title);
-  console.log(req.body.content)
+  const newArticle = new Article({
+    title: req.body.title,
+    content: req.body.content,
+    resource: req.body.resource
+  });
+  newArticle.save(function(err){
+    if(err){
+      res.send(err)
+    }else{
+      res.send("article posted successfully")
+     }
+  });
 })
 
 //server 
