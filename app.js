@@ -32,8 +32,10 @@ app.get('/articles', function(req,res){
     }
   });
 });
-
-
+app.post('/articles', function(req, res){
+  console.log(req.body.title);
+  console.log(req.body.content)
+})
 
 //server 
 app.listen(4000, () => console.log('app listening on port 4000!'));
