@@ -81,7 +81,6 @@ app.route("/articles/:ID")
         else{res.send(err)}
       });
   })
-  .patch(function(req,res){})
   .delete(function(req,res){
     Article.deleteOne({_id: req.params.ID}, function(err){
       if(err){res.send(err)}
